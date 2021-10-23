@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, useMemo } from 'react';
 import '../styles/button.scss';
 import { Icon } from './Icon';
 
@@ -9,13 +9,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ iconName, title, selected, ...rest }: ButtonProps) {
+  const memorizedIcon = useMemo(() => {
+    return <Icon name={iconName} color={selected ? '#FAE800' : '#FBFBFB'} />;
+  }, [iconName, selected]);
+
   return (
     <button
       type='button'
       {...(selected && { className: 'selected' })}
       {...rest}
     >
-      <Icon name={iconName} color={selected ? '#FAE800' : '#FBFBFB'} />
+      {memorizedIcon}
       {title}
     </button>
   );
